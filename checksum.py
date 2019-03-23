@@ -12,38 +12,58 @@ class Command:
 
 
 class MD5(Command):
-    '''
-    Output a file or string's md5 checksum.
-    '''
+    '''Output a file or string's md5 checksum.'''
     def execute(self, options):
         file_path = Path(options.file)
 
-        if not file_path.is_file():
+        if not options.string and file_path.is_file():
             print('Cannot find file \'{0}\''.format(file_path))
             return
 
-        print('Calculating MD5 for \'{0}\''.format(file_path))
-        checksum = get_file_md5(file_path)
-        print('md5: {0}\n'.format(checksum))
+        if options.string:
+            print('\nCalculating MD5 for \'{0}\'\n'.format(options.file))
+            checksum = get_string_md5(options.file)
+            print('md5: {0}'.format(checksum))
+
+        else:
+            print('\nCalculating MD5 for \'{0}\'\n'.format(file_path))
+            checksum = get_file_md5(file_path)
+            print('md5: {0}'.format(checksum))
+
+        if options.compare:
+            print('compare: {0}'.format(options.compare))
+
+            if checksum == options.compare:
+                print('\nMatches!')
+            else:
+                print('\nDoes NOT match')
 
     @staticmethod
     def configure(subparser):
         subparser.add_argument('file', type=str, help='The file\'s path')
-        # a flag that treats the file as a string
-        # a flag that passes in a string with a hash to compare
+        subparser.add_argument('-s', '--string', action='store_true', help='Treat the file argument as a string when calculating the MD5 hash')
+        subparser.add_argument('-c', '--compare', type=str, help='Compare the calculated MD5 hash with a string')
 
 
 def get_file_md5(file_path):
     '''Returns:
-        The MD5 hash of the file as a string
+        The MD5 hash of the file as a string.
     '''
     md5Hash = hashlib.md5()
     with open(file_path, "rb") as f:
-        # Note: Allow handling of extremely large files
-        # by passing in chunks at a time. This ensures we
-        # do not run out of memory.
+        # Note: Allow handling of extremely large files by passing in chunks at
+        # a time. This ensures we do not run out of memory.
         for chunk in iter(lambda: f.read(4096), b""):
             md5Hash.update(chunk)
+    return md5Hash.hexdigest()
+
+
+def get_string_md5(md5_string: str):
+    '''Returns:
+        The MD5 hash of the string as a string.
+    '''
+    md5Hash = hashlib.md5()
+    md5Hash.update(md5_string.encode('utf-8'))
     return md5Hash.hexdigest()
 
 
