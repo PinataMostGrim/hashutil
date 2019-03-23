@@ -25,7 +25,7 @@ class MD5(Command):
             checksum = get_string_md5(options.file)
 
         else:
-            print('\nCalculating MD5 for \'{0}\'\n'.format(file_path))
+            print('\nCalculating MD5 for \'{0}\''.format(file_path))
             checksum = get_file_md5(file_path)
 
         print('md5    : {0}'.format(checksum))
@@ -36,7 +36,7 @@ class MD5(Command):
             if checksum == options.compare:
                 print('\nMatches!')
             else:
-                print('\nDoes NOT match')
+                print('\nDoes NOT match!')
 
     @staticmethod
     def configure(subparser):
@@ -70,7 +70,7 @@ class SHA256(Command):
             if checksum == options.compare:
                 print('\nMatches!')
             else:
-                print('\nDoes NOT match')
+                print('\nDoes NOT match!')
 
     @staticmethod
     def configure(subparser):
