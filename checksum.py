@@ -59,7 +59,7 @@ class SHA256(Command):
             checksum = get_string_sha256(options.file)
 
         else:
-            print('\nCalculating SHA256 for \'{0}\'\n'.format(file_path))
+            print('\nCalculating SHA256 for \'{0}\''.format(file_path))
             checksum = get_file_sha256(file_path)
 
         print('sha256 : {0}'.format(checksum))
