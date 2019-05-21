@@ -50,6 +50,6 @@ def _get_algorithm(algorithm: str):
 
 
 def _get_available_algorithms():
-    return SUPPORTED_ALGORITHMS.copy()
+    return sorted(SUPPORTED_ALGORITHMS.copy())
     # return hashlib.algorithms_available
     # return hashlib.algorithms_guaranteed
