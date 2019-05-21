@@ -22,9 +22,9 @@ def main():
         sys.exit(0)
 
     if args.file:
-        input_type = 'file'
+        input_type = 'FILE'
     else:
-        input_type = 'string'
+        input_type = 'STRING'
 
     print(f'\nCalculating {args.algorithm} for {input_type}: {args.input}')
 
@@ -47,9 +47,9 @@ def main():
         print(f'{prefix: <10}: {args.compare}')
 
         if hash == args.compare:
-            print('\nMatches!')
+            print('\nHashes match!')
         else:
-            print('\nDoes NOT match!')
+            print('\nHashes DO NOT match!')
 
     sys.exit(0)
 
