@@ -4,7 +4,7 @@ import hashlib
 from pathlib import Path
 
 
-SUPPORTED_ALGORITHMS = {
+_SUPPORTED_ALGORITHMS = {
     'blake2b',
     'blake2s',
     'md5',
@@ -30,11 +30,15 @@ class InvalidAlgorithmError(HashutilError):
     pass
 
 
-def print_available_algorithms():
-    """Prints a list of all available algorithms."""
+def get_available_algorithms():
+    """Fetches a sorted set of supported algorithms.
 
-    available = _get_available_algorithms()
-    print(', '.join(available))
+    Returns:
+      A set of supported algorithms.
+    """
+    return sorted(_SUPPORTED_ALGORITHMS.copy())
+    # return set(sorted(hashlib.algorithms_available))
+    # return set(sorted(hashlib.algorithms_guaranteed))
 
 
 def get_string_hash(string: str, algorithm_name: str):
@@ -85,19 +89,8 @@ def _get_algorithm(algorithm: str):
     Returns:
       A constructed hash object.
     """
-    if algorithm not in _get_available_algorithms():
+    if algorithm not in get_available_algorithms():
         raise InvalidAlgorithmError(f'{algorithm} is not a valid algorithm')
 
     target_constructor = getattr(hashlib, algorithm)
     return target_constructor()
-
-
-def _get_available_algorithms():
-    """Fetches a sorted set of supported algorithms.
-
-    Returns:
-      A set of supported algorithms.
-    """
-    return SUPPORTED_ALGORITHMS.copy()
-    # return set(sorted(hashlib.algorithms_available))
-    # return set(sorted(hashlib.algorithms_guaranteed))

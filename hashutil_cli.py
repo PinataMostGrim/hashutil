@@ -18,7 +18,7 @@ def main():
     args = prase_args(sys.argv[1:])
 
     if args.list:
-        core.print_available_algorithms()
+        print(', '.join(core.get_available_algorithms()))
         sys.exit(0)
 
     if args.file:
