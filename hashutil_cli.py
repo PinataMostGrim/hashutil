@@ -79,8 +79,10 @@ def prase_args(argv: list):
     hash_parser.add_argument('algorithm', type=str, help='algorithm help')
     hash_parser.add_argument('input', type=str, help='input help')
     hash_parser.add_argument('--file', '-f', action='store_true', help='file help')
-    hash_parser.add_argument('--compare', '-c', type=str, help='compare help')
-    hash_parser.add_argument('--quiet', '-q', action="store_true", help='quiet help')
+
+    hash_group = hash_parser.add_mutually_exclusive_group()
+    hash_group.add_argument('--compare', '-c', type=str, help='compare help')
+    hash_group.add_argument('--quiet', '-q', action="store_true", help='quiet help')
 
     args, extra_args = list_parser.parse_known_args()
 
