@@ -36,6 +36,7 @@ def get_available_algorithms():
     Returns:
       A set of supported algorithms.
     """
+
     return sorted(_SUPPORTED_ALGORITHMS.copy())
     # return set(sorted(hashlib.algorithms_available))
     # return set(sorted(hashlib.algorithms_guaranteed))
@@ -89,6 +90,7 @@ def _get_algorithm(algorithm: str):
     Returns:
       A constructed hash object.
     """
+
     if algorithm not in get_available_algorithms():
         raise InvalidAlgorithmError(f'{algorithm} is not a valid algorithm')
 
