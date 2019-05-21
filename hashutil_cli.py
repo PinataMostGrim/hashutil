@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-""" """
+
+"""Command line interface script for interacting with the hashutil module.
+Calculates hash digests for strings and files using various algorithms.
+
+Use the 'hashutil_cli -h' command for usage instructions.
+"""
 
 import argparse
 import sys
@@ -9,6 +14,7 @@ from pathlib import Path
 
 
 def main():
+    """Executes parsed arguments and prints output."""
     args = prase_args(sys.argv[1:])
 
     if args.list:
@@ -48,9 +54,17 @@ def main():
     sys.exit(0)
 
 
-def prase_args(argv):
+def prase_args(argv: list):
+    """Builds a Namespace object with parsed arguments.
 
-    # Note: We use two parsers here in order to support the optional '--list' flag
+    Args:
+      argv: List: List of arguments to parse.
+
+    Returns:
+      A Namespace object with parsed arguments.
+    """
+
+    # Note: We use two parsers here in order to support the optional '--list' argument.
     list_parser = argparse.ArgumentParser(add_help=False)
     list_parser.add_argument('--list', action='store_true', help='list help')
 

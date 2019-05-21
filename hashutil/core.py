@@ -1,3 +1,5 @@
+"""Calculates hash digests for strings and files using various algorithms."""
+
 import hashlib
 from pathlib import Path
 
@@ -19,21 +21,33 @@ SUPPORTED_ALGORITHMS = {
 
 
 class HashutilError(Exception):
-    """ """
+    """Base error for core HashUtility module exceptions."""
     pass
 
 
 class InvalidAlgorithmError(HashutilError):
-    """ """
+    """An error occured because an invalid algorithm was requested."""
     pass
 
 
 def print_available_algorithms():
+    """Prints a list of all available algorithms."""
+
     available = _get_available_algorithms()
     print(', '.join(available))
 
 
 def get_string_hash(string: str, algorithm_name: str):
+    """Calculates the hash digest of a string.
+
+    Args:
+      string: str: The string to digest.
+      algorithm_name: str: The name of the algorithm to hash the string with.
+
+    Returns:
+      A hash digest in string form.
+    """
+
     hash_algorithm = _get_algorithm(algorithm_name)
     hash_algorithm.update(string.encode('utf-8'))
 
@@ -41,6 +55,16 @@ def get_string_hash(string: str, algorithm_name: str):
 
 
 def get_file_hash(file_path: Path, algorithm_name: str):
+    """Calculates the hash digest of a file.
+
+    Args:
+      file_path: Path: The file to digest.
+      algorithm_name: str: The name of the algorithm to hash the file with.
+
+    Returns:
+      A hash digest in string form.
+    """
+
     hash_algorithm = _get_algorithm(algorithm_name)
 
     with open(file_path, 'rb') as f:
@@ -53,6 +77,14 @@ def get_file_hash(file_path: Path, algorithm_name: str):
 
 
 def _get_algorithm(algorithm: str):
+    """Fetches a constructed hash object from hashlib.
+
+    Args:
+      algorithm: str: The name of the hash object to construct.
+
+    Returns:
+      A constructed hash object.
+    """
     if algorithm not in _get_available_algorithms():
         raise InvalidAlgorithmError(f'{algorithm} is not a valid algorithm')
 
@@ -61,6 +93,11 @@ def _get_algorithm(algorithm: str):
 
 
 def _get_available_algorithms():
+    """Fetches a sorted set of supported algorithms.
+
+    Returns:
+      A set of supported algorithms.
+    """
     return SUPPORTED_ALGORITHMS.copy()
     # return set(sorted(hashlib.algorithms_available))
     # return set(sorted(hashlib.algorithms_guaranteed))
