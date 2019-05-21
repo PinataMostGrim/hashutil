@@ -2,9 +2,20 @@ import hashlib
 from pathlib import Path
 
 
-SUPPORTED_ALGORITHMS = [
-    'sha1', 'blake2b', 'sha3_224', 'sha3_512', 'sha3_384', 'sha256', 'md5', 'sha3_256', 'blake2s', 'sha224', 'sha384', 'sha512'
-]
+SUPPORTED_ALGORITHMS = {
+    'blake2b',
+    'blake2s',
+    'md5',
+    'sha1',
+    'sha224',
+    'sha256',
+    'sha384',
+    'sha3_224',
+    'sha3_256',
+    'sha3_384',
+    'sha3_512',
+    'sha512'
+}
 
 
 class HashutilError(Exception):
@@ -50,6 +61,6 @@ def _get_algorithm(algorithm: str):
 
 
 def _get_available_algorithms():
-    return sorted(SUPPORTED_ALGORITHMS.copy())
-    # return hashlib.algorithms_available
-    # return hashlib.algorithms_guaranteed
+    return SUPPORTED_ALGORITHMS.copy()
+    # return set(sorted(hashlib.algorithms_available))
+    # return set(sorted(hashlib.algorithms_guaranteed))
