@@ -26,7 +26,8 @@ def main():
     else:
         input_type = 'STRING'
 
-    print(f'\nCalculating {args.algorithm} for {input_type}: {args.input}')
+    if not args.quiet:
+        print(f'\nCalculating {args.algorithm} for {input_type}: {args.input}')
 
     if args.file:
         file_path = Path(args.input)
@@ -40,7 +41,11 @@ def main():
     else:
         hash = core.get_string_hash(args.input, args.algorithm)
 
-    print(f'\n{args.algorithm: <10}: {hash}')
+    if args.quiet:
+        print(hash)
+        return
+    else:
+        print(f'\n{args.algorithm: <10}: {hash}')
 
     if (args.compare):
         prefix = 'compare'
@@ -50,8 +55,6 @@ def main():
             print('\nHashes match!')
         else:
             print('\nHashes DO NOT match!')
-
-    sys.exit(0)
 
 
 def prase_args(argv: list):
@@ -77,6 +80,7 @@ def prase_args(argv: list):
     hash_parser.add_argument('input', type=str, help='input help')
     hash_parser.add_argument('--file', '-f', action='store_true', help='file help')
     hash_parser.add_argument('--compare', '-c', type=str, help='compare help')
+    hash_parser.add_argument('--quiet', '-q', action="store_true", help='quiet help')
 
     args, extra_args = list_parser.parse_known_args()
 
