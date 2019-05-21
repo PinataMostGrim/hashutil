@@ -15,6 +15,7 @@ from pathlib import Path
 
 def main():
     """Executes parsed arguments and prints output."""
+
     args = prase_args(sys.argv[1:])
 
     if args.list:
@@ -67,20 +68,20 @@ def prase_args(argv: list):
 
     # Note: We use two parsers here in order to support the optional '--list' argument.
     list_parser = argparse.ArgumentParser(add_help=False)
-    list_parser.add_argument('--list', action='store_true', help='list help')
+    list_parser.add_argument('--list', action='store_true', help='Display a list of all supported hash algorithms')
 
     hash_parser = argparse.ArgumentParser(
         prog='hashutil_cli.py',
-        description='CLI application that calculates hash sums',
+        description='Calculates hash digests for strings and files using various algorithms.',
         parents=[list_parser])
 
-    hash_parser.add_argument('algorithm', type=str, help='algorithm help')
-    hash_parser.add_argument('input', type=str, help='input help')
-    hash_parser.add_argument('--file', '-f', action='store_true', help='file help')
+    hash_parser.add_argument('algorithm', type=str, help='Algorithm to use when calculating the input argument\'s hash')
+    hash_parser.add_argument('input', type=str, help='String or file to hash (default: string)')
+    hash_parser.add_argument('--file', '-f', action='store_true', help='Attempt to find and hash a file defined by the input argument')
 
     hash_group = hash_parser.add_mutually_exclusive_group()
-    hash_group.add_argument('--compare', '-c', type=str, help='compare help')
-    hash_group.add_argument('--quiet', '-q', action="store_true", help='quiet help')
+    hash_group.add_argument('--compare', '-c', type=str, help='Run a comparison between this string and the input argument\'s hash')
+    hash_group.add_argument('--quiet', '-q', action="store_true", help='Output ONLY the calculated hash.')
 
     args, extra_args = list_parser.parse_known_args()
 
