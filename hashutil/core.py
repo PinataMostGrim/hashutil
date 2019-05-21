@@ -57,35 +57,3 @@ def _get_available_algorithms():
     return SUPPORTED_ALGORITHMS.copy()
     # return hashlib.algorithms_available
     # return hashlib.algorithms_guaranteed
-
-
-def get_file_md5(file_path):
-    '''Returns:
-        The MD5 hash of the file as a string.
-    '''
-
-    return get_file_hash(file_path, 'md5')
-
-
-def get_string_md5(string: str):
-    '''Returns:
-        The MD5 hash of the string as a string.
-    '''
-
-    return get_string_hash(string, 'md5')
-
-
-def get_file_sha256(file_path):
-    '''Returns:
-        The SHA256 hash of the file as a string.
-    '''
-
-    return get_file_hash(file_path, 'sha256')
-
-
-def get_string_sha256(string: str):
-    '''Returns:
-        The SHA256 hash of the string as a string.
-    '''
-
-    return get_string_hash(string, 'sha256')
