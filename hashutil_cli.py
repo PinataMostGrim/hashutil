@@ -19,7 +19,7 @@ def main():
 
     if args.list:
         print(', '.join(core.get_available_algorithms()))
-        sys.exit(0)
+        sys.exit(1)
 
     if args.file:
         input_type = 'FILE'
@@ -31,30 +31,28 @@ def main():
 
     if args.file:
         file_path = Path(args.input)
-
         if not file_path.exists():
             print('Cannot find file \'{0}\''.format(file_path))
             sys.exit(1)
-
         hash = core.get_file_hash(file_path, args.algorithm)
-
     else:
         hash = core.get_string_hash(args.input, args.algorithm)
 
     if args.quiet:
         print(hash)
-        return
+        sys.exit(1)
     else:
         print(f'\n{args.algorithm: <10}: {hash}')
 
     if (args.compare):
         prefix = 'compare'
         print(f'{prefix: <10}: {args.compare}')
-
         if hash == args.compare:
             print('\nHashes match!')
         else:
             print('\nHashes DO NOT match!')
+
+    sys.exit(0)
 
 
 def prase_args(argv: list):
