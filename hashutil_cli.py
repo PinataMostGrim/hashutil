@@ -1,112 +1,93 @@
 #!/usr/bin/env python3
+
+"""Command line interface script for interacting with the hashutil module.
+Calculates hash digests for strings and files using various algorithms.
+
+Use the 'hashutil_cli -h' command for usage instructions.
+"""
+
 import argparse
 import sys
 
-from argparse import Namespace
-from pathlib import Path
-
 from hashutil import core
-
-
-class Command:
-    def execute(self, options: Namespace):
-        pass
-
-
-class MD5(Command):
-    '''Output a file or string's md5 checksum.'''
-    def execute(self, options):
-        file_path = Path(options.file)
-
-        if not options.string and not file_path.is_file():
-            print('Cannot find file \'{0}\''.format(file_path))
-            return
-
-        if options.string:
-            print('\nCalculating MD5 for \'{0}\''.format(options.file))
-            checksum = core.get_string_md5(options.file)
-
-        else:
-            print('\nCalculating MD5 for \'{0}\''.format(file_path))
-            checksum = core.get_file_md5(file_path)
-
-        print('md5    : {0}'.format(checksum))
-
-        if options.compare:
-            print('compare: {0}'.format(options.compare))
-
-            if checksum == options.compare:
-                print('\nMatches!')
-            else:
-                print('\nDoes NOT match!')
-
-    @staticmethod
-    def configure(subparser):
-        subparser.add_argument('file', type=str, help='The file\'s path')
-        subparser.add_argument('-s', '--string', action='store_true', help='Treat the file argument as a string when calculating the MD5 hash')
-        subparser.add_argument('-c', '--compare', type=str, help='Compare the calculated MD5 hash with a string')
-
-
-class SHA256(Command):
-    '''Output a file or string's SHA256 checksum.'''
-    def execute(self, options):
-        file_path = Path(options.file)
-
-        if not options.string and not file_path.is_file():
-            print('Cannot find file \'{0}\''.format(file_path))
-            return
-
-        if options.string:
-            print('\nCalculating SHA256 for \'{0}\''.format(options.file))
-            checksum = core.get_string_sha256(options.file)
-
-        else:
-            print('\nCalculating SHA256 for \'{0}\''.format(file_path))
-            checksum = core.get_file_sha256(file_path)
-
-        print('sha256 : {0}'.format(checksum))
-
-        if options.compare:
-            print('compare: {0}'.format(options.compare))
-
-            if checksum == options.compare:
-                print('\nMatches!')
-            else:
-                print('\nDoes NOT match!')
-
-    @staticmethod
-    def configure(subparser):
-        subparser.add_argument('file', type=str, help='The file\'s path')
-        subparser.add_argument('-s', '--string', action='store_true', help='Treat the file argument as a string when calculating the hash')
-        subparser.add_argument('-c', '--compare', type=str, help='Compare the calculated hash with a string')
+from pathlib import Path
 
 
 def main():
-    options = get_options(sys.argv[1:])
-    command = options.command()
-    command.execute(options)
+    """Executes parsed arguments and prints output."""
+    args = prase_args(sys.argv[1:])
+
+    if args.list:
+        print(', '.join(core.get_available_algorithms()))
+        sys.exit(0)
+
+    if args.file:
+        input_type = 'file'
+    else:
+        input_type = 'string'
+
+    print(f'\nCalculating {args.algorithm} for {input_type}: {args.input}')
+
+    if args.file:
+        file_path = Path(args.input)
+
+        if not file_path.exists():
+            print('Cannot find file \'{0}\''.format(file_path))
+            sys.exit(1)
+
+        hash = core.get_file_hash(file_path, args.algorithm)
+
+    else:
+        hash = core.get_string_hash(args.input, args.algorithm)
+
+    print(f'\n{args.algorithm: <10}: {hash}')
+
+    if (args.compare):
+        prefix = 'compare'
+        print(f'{prefix: <10}: {args.compare}')
+
+        if hash == args.compare:
+            print('\nMatches!')
+        else:
+            print('\nDoes NOT match!')
+
+    sys.exit(0)
 
 
-def get_options(argv):
-    parser = argparse.ArgumentParser(
-        prog='checksum',
-        description='CLI utility for reporting file checksums')
-    subparsers = parser.add_subparsers(title='Commands')
+def prase_args(argv: list):
+    """Builds a Namespace object with parsed arguments.
 
-    md5_parser = subparsers.add_parser('md5', help='Reports file md5 checksum')
-    MD5.configure(md5_parser)
-    md5_parser.set_defaults(command=MD5)
+    Args:
+      argv: List: List of arguments to parse.
 
-    sha256_parser = subparsers.add_parser('sha256', help='Reports file sha256 checksum')
-    SHA256.configure(sha256_parser)
-    sha256_parser.set_defaults(command=SHA256)
+    Returns:
+      A Namespace object with parsed arguments.
+    """
 
-    options = parser.parse_args(argv)
-    if 'command' not in options:
-        parser.print_help()
-        sys.exit(2)
+    # Note: We use two parsers here in order to support the optional '--list' argument.
+    list_parser = argparse.ArgumentParser(add_help=False)
+    list_parser.add_argument('--list', action='store_true', help='list help')
 
-    return options
+    hash_parser = argparse.ArgumentParser(
+        prog='hashutil_cli.py',
+        description='CLI application that calculates hash sums',
+        parents=[list_parser])
+
+    hash_parser.add_argument('algorithm', type=str, help='algorithm help')
+    hash_parser.add_argument('input', type=str, help='input help')
+    hash_parser.add_argument('--file', '-f', action='store_true', help='file help')
+    hash_parser.add_argument('--compare', '-c', type=str, help='compare help')
+
+    args, extra_args = list_parser.parse_known_args()
+
+    if len(argv) == 0:
+        hash_parser.print_help()
+        sys.exit(0)
+
+    if len(extra_args) > 0:
+        args = hash_parser.parse_args(extra_args, namespace=args)
+
+    return args
 
 
 if __name__ == '__main__':
