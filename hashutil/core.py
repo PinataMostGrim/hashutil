@@ -3,9 +3,7 @@ from pathlib import Path
 
 
 SUPPORTED_ALGORITHMS = [
-    'md5',
-    'sha256',
-    'sha512'
+    'sha1', 'blake2b', 'sha3_224', 'sha3_512', 'sha3_384', 'sha256', 'md5', 'sha3_256', 'blake2s', 'sha224', 'sha384', 'sha512'
 ]
 
 
@@ -44,9 +42,7 @@ def get_file_hash(file_path: Path, algorithm_name: str):
 
 
 def _get_algorithm(algorithm: str):
-    available = _get_available_algorithms()
-
-    if algorithm not in available:
+    if algorithm not in _get_available_algorithms():
         raise InvalidAlgorithmError(f'{algorithm} is not a valid algorithm')
 
     target_constructor = getattr(hashlib, algorithm)
