@@ -19,37 +19,38 @@ def main():
 
     if args.list:
         print(', '.join(core.get_available_algorithms()))
-        sys.exit(0)
+        sys.exit(1)
 
     if args.file:
-        input_type = 'file'
+        input_type = 'FILE'
     else:
-        input_type = 'string'
+        input_type = 'STRING'
 
-    print(f'\nCalculating {args.algorithm} for {input_type}: {args.input}')
+    if not args.quiet:
+        print(f'\nCalculating {args.algorithm} for {input_type}: {args.input}')
 
     if args.file:
         file_path = Path(args.input)
-
         if not file_path.exists():
             print('Cannot find file \'{0}\''.format(file_path))
             sys.exit(1)
-
         hash = core.get_file_hash(file_path, args.algorithm)
-
     else:
         hash = core.get_string_hash(args.input, args.algorithm)
 
-    print(f'\n{args.algorithm: <10}: {hash}')
+    if args.quiet:
+        print(hash)
+        sys.exit(1)
+    else:
+        print(f'\n{args.algorithm: <10}: {hash}')
 
     if (args.compare):
         prefix = 'compare'
         print(f'{prefix: <10}: {args.compare}')
-
         if hash == args.compare:
-            print('\nMatches!')
+            print('\nHashes match!')
         else:
-            print('\nDoes NOT match!')
+            print('\nHashes DO NOT match!')
 
     sys.exit(0)
 
@@ -76,7 +77,10 @@ def prase_args(argv: list):
     hash_parser.add_argument('algorithm', type=str, help='algorithm help')
     hash_parser.add_argument('input', type=str, help='input help')
     hash_parser.add_argument('--file', '-f', action='store_true', help='file help')
-    hash_parser.add_argument('--compare', '-c', type=str, help='compare help')
+
+    hash_group = hash_parser.add_mutually_exclusive_group()
+    hash_group.add_argument('--compare', '-c', type=str, help='compare help')
+    hash_group.add_argument('--quiet', '-q', action="store_true", help='quiet help')
 
     args, extra_args = list_parser.parse_known_args()
 
