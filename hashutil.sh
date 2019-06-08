@@ -1,19 +1,11 @@
 #!/bin/bash
-# Run hashutil_cli.py using a virtual environment.
+# Run __main__.py using a virtual environment.
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-
-# Note: The windows virtual environment path must still defined in POSIX format.
-VENV_WIN_PATH="$SCRIPT_DIR/.venv/Scripts/python.exe"
-VENV_LINUX_PATH="$SCRIPT_DIR/.venv/bin/python"
+VENV_ACTIVATE_PATH="$SCRIPT_DIR/.venv/bin/activate"
 
 cd "$SCRIPT_DIR"
 
-if [ -e "$VENV_WIN_PATH" ]; then
-    "$VENV_WIN_PATH" "hashutil_cli.py" "$@"
-
-elif [ -e "$VENV_LINUX_PATH" ]; then
-    "$VENV_LINUX_PATH" "hashutil_cli.py" "$@"
-else
-    echo "Virtual environment not found"
-fi
+source "$VENV_ACTIVATE_PATH"
+python -m hashutil "$@"
+deactivate

@@ -9,7 +9,7 @@ Use the 'hashutil_cli -h' command for usage instructions.
 import argparse
 import sys
 
-from hashutil import core
+from . import core
 from pathlib import Path
 
 
@@ -41,7 +41,7 @@ def main():
 
     if args.quiet:
         print(hash)
-        sys.exit(1)
+        sys.exit(0)
     else:
         print(f'\n{args.algorithm: <10}: {hash}')
 
