@@ -16,7 +16,7 @@ from pathlib import Path
 def main():
     """Executes parsed arguments and prints output."""
 
-    args = prase_args(sys.argv[1:])
+    args = parse_args(sys.argv[1:])
 
     if args.list:
         print(', '.join(core.get_available_algorithms()))
@@ -56,7 +56,7 @@ def main():
     sys.exit(0)
 
 
-def prase_args(argv: list):
+def parse_args(argv: list):
     """Builds a Namespace object with parsed arguments.
 
     Args:
