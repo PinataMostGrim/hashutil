@@ -40,14 +40,30 @@ def fixture_test_file():
 
 # Tests
 def test_get_available_algorithms():
-    available_algorithms = ['blake2b', 'blake2s', 'md5', 'sha1', 'sha224', 'sha256', 'sha384', 'sha3_224', 'sha3_256', 'sha3_384', 'sha3_512', 'sha512']
+    available_algorithms = [
+        'blake2b',
+        'blake2s',
+        'md5',
+        'sha1',
+        'sha224',
+        'sha256',
+        'sha384',
+        'sha3_224',
+        'sha3_256',
+        'sha3_384',
+        'sha3_512',
+        'sha512',
+    ]
     assert available_algorithms == core.get_available_algorithms()
 
 
 def test_hash_string_blake2b():
 
     hash = core.get_string_hash(_TEST_STRING, 'blake2b')
-    assert hash == '5709d01ec434335daae198ad06158a9d51be5026c166e6935ca2cb924e7341ff2e5b0671c378325bfee70e503082df5b55ef0b0e9ea4c27e7f776b2e8c6ac179'
+    assert (
+        hash
+        == '5709d01ec434335daae198ad06158a9d51be5026c166e6935ca2cb924e7341ff2e5b0671c378325bfee70e503082df5b55ef0b0e9ea4c27e7f776b2e8c6ac179'
+    )
 
 
 def test_hash_string_blake2s():
@@ -83,7 +99,10 @@ def test_hash_string_sha256():
 def test_hash_string_sha384():
 
     hash = core.get_string_hash(_TEST_STRING, 'sha384')
-    assert hash == 'e213dccb3221e0b8fdd995dcc1d04e218fc649981038bfac81abc98932369bac0efb758b92eccd80321df8eb64efae87'
+    assert (
+        hash
+        == 'e213dccb3221e0b8fdd995dcc1d04e218fc649981038bfac81abc98932369bac0efb758b92eccd80321df8eb64efae87'
+    )
 
 
 def test_hash_string_sha3_224():
@@ -101,25 +120,37 @@ def test_hash_string_sha3_256():
 def test_hash_string_sha3_384():
 
     hash = core.get_string_hash(_TEST_STRING, 'sha3_384')
-    assert hash == 'd31c6a449362712e691534004552c29ce9ce946be8b94fb2fa8dcef52d861d607fd09b804d0cbf9604e4b7c8db2fb73c'
+    assert (
+        hash
+        == 'd31c6a449362712e691534004552c29ce9ce946be8b94fb2fa8dcef52d861d607fd09b804d0cbf9604e4b7c8db2fb73c'
+    )
 
 
 def test_hash_string_sha3_512():
 
     hash = core.get_string_hash(_TEST_STRING, 'sha3_512')
-    assert hash == 'f6ae3079ef6c5deacb44e03bf7a5d220fac38351279a79da22fa7331fcd39141f4807a121327910f21ad666660a0a327842ffca6c91f221e413c9cc246ea8d92'
+    assert (
+        hash
+        == 'f6ae3079ef6c5deacb44e03bf7a5d220fac38351279a79da22fa7331fcd39141f4807a121327910f21ad666660a0a327842ffca6c91f221e413c9cc246ea8d92'
+    )
 
 
 def test_hash_string_512():
 
     hash = core.get_string_hash(_TEST_STRING, 'sha512')
-    assert hash == '10e6d647af44624442f388c2c14a787ff8b17e6165b83d767ec047768d8cbcb71a1a3226e7cc7816bc79c0427d94a9da688c41a3992c7bf5e4d7cc3e0be5dbac'
+    assert (
+        hash
+        == '10e6d647af44624442f388c2c14a787ff8b17e6165b83d767ec047768d8cbcb71a1a3226e7cc7816bc79c0427d94a9da688c41a3992c7bf5e4d7cc3e0be5dbac'
+    )
 
 
 def test_hash_file_blake2b(fixture_test_file):
 
     hash = core.get_file_hash(get_test_file_path(), 'blake2b')
-    assert hash == 'e867d368cdff9eac88085b7f8286af42743a1f3774b3815101493cba4731408157563b178d565a57fe18deddba102171e9c40e9e2e2f786780fa4367d06f277a'
+    assert (
+        hash
+        == 'e867d368cdff9eac88085b7f8286af42743a1f3774b3815101493cba4731408157563b178d565a57fe18deddba102171e9c40e9e2e2f786780fa4367d06f277a'
+    )
 
 
 def test_hash_file_blake2s(fixture_test_file):
@@ -155,7 +186,10 @@ def test_hash_file_sha256(fixture_test_file):
 def test_hash_file_sha384(fixture_test_file):
 
     hash = core.get_file_hash(get_test_file_path(), 'sha384')
-    assert hash == '516493a2791e0bf2602511ba546567185f26295c0f048483ce5ec73f616834a7b5523d3fa6bdef7a039fe32b8fe515b9'
+    assert (
+        hash
+        == '516493a2791e0bf2602511ba546567185f26295c0f048483ce5ec73f616834a7b5523d3fa6bdef7a039fe32b8fe515b9'
+    )
 
 
 def test_hash_file_sha3_224(fixture_test_file):
@@ -173,16 +207,25 @@ def test_hash_file_sha3_256(fixture_test_file):
 def test_hash_file_sha3_384(fixture_test_file):
 
     hash = core.get_file_hash(get_test_file_path(), 'sha3_384')
-    assert hash == 'd33d0222a9881dc030bc04c1e9dd24a61013e9cabba86cd9222addad6173c1d14d6c4b013a52b815daf70d728413cca7'
+    assert (
+        hash
+        == 'd33d0222a9881dc030bc04c1e9dd24a61013e9cabba86cd9222addad6173c1d14d6c4b013a52b815daf70d728413cca7'
+    )
 
 
 def test_hash_file_sha3_512(fixture_test_file):
 
     hash = core.get_file_hash(get_test_file_path(), 'sha3_512')
-    assert hash == 'e1f841504b679806bd07ba1a1d4844dcf1abc854280400d9b16ddde4e145a51c1e072f581428ac17381d791695ff8f519250857dc2ce45e14ba872c1e9f04e72'
+    assert (
+        hash
+        == 'e1f841504b679806bd07ba1a1d4844dcf1abc854280400d9b16ddde4e145a51c1e072f581428ac17381d791695ff8f519250857dc2ce45e14ba872c1e9f04e72'
+    )
 
 
 def test_hash_file_sha512(fixture_test_file):
 
     hash = core.get_file_hash(get_test_file_path(), 'sha512')
-    assert hash == 'f2bb7acec79f2ce98adb0968dc9d41d344135463a486221dc8302684d7138455f72c94040d4096327e2d9f14f31c4db1b9044173572dfc5c1f03c8066adc44ff'
+    assert (
+        hash
+        == 'f2bb7acec79f2ce98adb0968dc9d41d344135463a486221dc8302684d7138455f72c94040d4096327e2d9f14f31c4db1b9044173572dfc5c1f03c8066adc44ff'
+    )
