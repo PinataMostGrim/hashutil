@@ -3,7 +3,7 @@
 """Command line interface script for interacting with the hashutil module.
 Calculates hash digests for strings and files using various algorithms.
 
-Use the 'hashutil_cli -h' command for usage instructions.
+Use the 'hashutil -h' command for usage instructions.
 """
 
 import argparse
@@ -16,7 +16,7 @@ from pathlib import Path
 def main():
     """Executes parsed arguments and prints output."""
 
-    args = prase_args(sys.argv[1:])
+    args = parse_args(sys.argv[1:])
 
     if args.list:
         print(', '.join(core.get_available_algorithms()))
@@ -45,7 +45,7 @@ def main():
     else:
         print(f'\n{args.algorithm: <10}: {hash}')
 
-    if (args.compare):
+    if args.compare:
         prefix = 'compare'
         print(f'{prefix: <10}: {args.compare}')
         if hash == args.compare:
@@ -56,7 +56,7 @@ def main():
     sys.exit(0)
 
 
-def prase_args(argv: list):
+def parse_args(argv: list):
     """Builds a Namespace object with parsed arguments.
 
     Args:
@@ -68,20 +68,34 @@ def prase_args(argv: list):
 
     # Note: We use two parsers here in order to support the optional '--list' argument.
     list_parser = argparse.ArgumentParser(add_help=False)
-    list_parser.add_argument('--list', action='store_true', help='Display a list of all supported hash algorithms')
+    list_parser.add_argument(
+        '--list', action='store_true', help='Display a list of all supported hash algorithms'
+    )
 
     hash_parser = argparse.ArgumentParser(
         prog='hashutil_cli.py',
-        description='Calculates hash digests for strings and files using various algorithms.',
-        parents=[list_parser])
+        description='Calculates hash digests for strings and files using different algorithms.',
+        parents=[list_parser],
+    )
 
-    hash_parser.add_argument('algorithm', type=str, help='Algorithm to use when calculating the input argument\'s hash')
+    hash_parser.add_argument(
+        'algorithm', type=str, help='Algorithm to use when calculating the input argument\'s hash'
+    )
     hash_parser.add_argument('input', type=str, help='String or file to hash (default: string)')
-    hash_parser.add_argument('--file', '-f', action='store_true', help='Attempt to find and hash a file defined by the input argument')
+    hash_parser.add_argument(
+        '--file', '-f', action='store_true', help='Hash a file defined by the input argument'
+    )
 
     hash_group = hash_parser.add_mutually_exclusive_group()
-    hash_group.add_argument('--compare', '-c', type=str, help='Run a comparison between this string and the input argument\'s hash')
-    hash_group.add_argument('--quiet', '-q', action="store_true", help='Output ONLY the calculated hash.')
+    hash_group.add_argument(
+        '--compare',
+        '-c',
+        type=str,
+        help='Run a comparison between this string and the input argument\'s hash',
+    )
+    hash_group.add_argument(
+        '--quiet', '-q', action="store_true", help='Output ONLY the calculated hash.'
+    )
 
     args, extra_args = list_parser.parse_known_args()
 

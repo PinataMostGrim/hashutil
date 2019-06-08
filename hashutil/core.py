@@ -16,17 +16,19 @@ _SUPPORTED_ALGORITHMS = {
     'sha3_256',
     'sha3_384',
     'sha3_512',
-    'sha512'
+    'sha512',
 }
 
 
 class HashutilError(Exception):
     """Base error for core HashUtility module exceptions."""
+
     pass
 
 
 class InvalidAlgorithmError(HashutilError):
     """An error occured because an invalid algorithm was requested."""
+
     pass
 
 
