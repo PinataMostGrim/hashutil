@@ -47,8 +47,9 @@ def main():
 
     if args.compare:
         prefix = 'compare'
-        print(f'{prefix: <10}: {args.compare}')
-        if hash == args.compare:
+        compare = args.compare.lower()
+        print(f'{prefix: <10}: {compare}')
+        if hash == compare:
             print('\nHashes match!')
         else:
             print('\nHashes DO NOT match!')
