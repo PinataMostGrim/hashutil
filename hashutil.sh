@@ -1,5 +1,5 @@
 #!/bin/bash
-# Run hashutil_cli.py using a virtual environment.
+# Run hashutil module using its virtual environment.
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
