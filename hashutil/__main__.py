@@ -84,7 +84,7 @@ def parse_args(argv: list):
     )
     hash_parser.add_argument('input', type=str, help='String or file to hash (default: string)')
     hash_parser.add_argument(
-        '--file', '-f', action='store_true', help='Hash a file defined by the input argument'
+        '--file', '-f', action='store_true', help='Hash the file specified by the input argument'
     )
 
     hash_group = hash_parser.add_mutually_exclusive_group()

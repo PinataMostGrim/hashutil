@@ -6,7 +6,7 @@
 usage: hashutil_cli.py [-h] [--list] [--file] [--compare COMPARE | --quiet]
                        algorithm input
 
-Calculates hash digests for strings and files using various algorithms.
+Calculates hash digests for strings and files using different algorithms.
 
 positional arguments:
   algorithm             Algorithm to use when calculating the input argument's
@@ -16,8 +16,7 @@ positional arguments:
 optional arguments:
   -h, --help            show this help message and exit
   --list                Display a list of all supported hash algorithms
-  --file, -f            Attempt to find and hash a file defined by the input
-                        argument
+  --file, -f            Hash the file specified by the input argument
   --compare COMPARE, -c COMPARE
                         Run a comparison between this string and the input
                         argument's hash
