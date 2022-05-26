@@ -1,1 +1,1 @@
-__title__ = 'hashutil'
+__version__ = '0.4.1'
