@@ -7,9 +7,9 @@ Use the 'hashutil -h' command for usage instructions.
 """
 
 import argparse
+import hashutil.core as core
 import sys
 
-from . import core
 from pathlib import Path
 
 
