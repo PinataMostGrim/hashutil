@@ -22,6 +22,3 @@ optional arguments:
                         argument's hash
   --quiet, -q           Output ONLY the calculated hash.
 ```
-
-## Notes
-- A batch file and shell script are included to facilitate running the application using a virtual environment embedded in the project. Virtual environment must be installed manually.
